@@ -9,8 +9,7 @@ const createOrderSchema = object({
             dishId: string().required(),
             quantity: number().integer().min(1).required(),
         })
-    ).required(),
-    status: string().oneOf(['pending', 'completed']).required(),
+    ).required()
 });
 
 export const create = async (req, res, next) => {

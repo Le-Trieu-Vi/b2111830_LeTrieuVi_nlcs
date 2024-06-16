@@ -6,11 +6,11 @@ import * as tableMiddleware from '../middlewares/table.middleware.js';
 const tableRouter = Router();
 tableRouter.use(authMiddleware.authenticate);
 tableRouter.route('/')
-    .get(authMiddleware.authorize(['admin', 'staff']), tableController.getAll)
+    .get(authMiddleware.authorize(['admin', 'staff']), tableController.getTable)
     .post(authMiddleware.authorize(['admin']), tableMiddleware.create, tableController.create)
 
 tableRouter.route('/:id')
-    .get(authMiddleware.authorize(['admin', 'staff']), tableController.getOne)
+    .get(authMiddleware.authorize(['admin', 'staff']), tableController.getOrderByIdTable)
     .put(authMiddleware.authorize(['admin', 'staff']), tableMiddleware.update, tableController.update)
     .delete(authMiddleware.authorize(['admin']), tableController.delete)
 

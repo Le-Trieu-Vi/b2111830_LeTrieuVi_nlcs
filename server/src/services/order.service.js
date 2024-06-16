@@ -7,12 +7,10 @@ export default class OrderService {
 
     async create(data) {
         try {
-            console.log(data.items);
             const createdOrder = await this.prismaService.order.create({
                 data: {
                     userId: data.userId,
                     tableId: data.tableId,
-                    status: data.status,
                     orderDetails: {
                         create: data.items.map(item => ({
                             dishId: item.dishId,
@@ -34,6 +32,37 @@ export default class OrderService {
     async getAll() {
         try {
             return this.prismaService.order.findMany({
+                include: {
+                    orderDetails: true,
+                },
+            });
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async getOne(id) {
+        try {
+            return this.prismaService.order.findUnique({
+                where: {
+                    id,
+                },
+                include: {
+                    orderDetails: true,
+                },
+            });
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async update(id, data) {
+        try {
+            return this.prismaService.order.update({
+                where: {
+                    id,
+                },
+                data,
                 include: {
                     orderDetails: true,
                 },

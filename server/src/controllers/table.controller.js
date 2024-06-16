@@ -17,18 +17,27 @@ class TableController {
         }
     }
 
-    async getAll(req, res, next) {
+    async getTable(req, res, next) {
         try {
+            const { status } = req.query;
+            if (status === 'available') {
+                const tables = await this.tableService.getAvailable();
+                return res.status(200).json(tables);
+            } else if (status === 'unavailable') {
+                const tables = await this.tableService.getUnavailable();
+                return res.status(200).json(tables);
+            }
             const tables = await this.tableService.getAll();
+            tables.sort((a, b) => a.number - b.number);
             res.status(200).json(tables);
         } catch (error) {
             next(new ApiError(error.status || 500, error.message || 'Failed to get tables'));
         }
     }
 
-    async getOne(req, res, next) {
+    async getOrderByIdTable(req, res, next) {
         try {
-            const table = await this.tableService.getOne(req.params.id);
+            const table = await this.tableService.getOrderByIdTable(req.params.id);
             res.status(200).json(table);
         } catch (error) {
             next(new ApiError(error.status || 500, error.message || 'Failed to get table'));

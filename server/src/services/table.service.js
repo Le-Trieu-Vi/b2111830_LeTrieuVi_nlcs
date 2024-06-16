@@ -23,13 +23,64 @@ export default class TableService {
     }
   }
 
-  async getOne(id) {
+  async getAvailable() {
     try {
-      return this.prismaService.table.findUnique({
+      return this.prismaService.table.findMany({
+        where: {
+          status: 'available',
+        },
+      });
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async getUnavailable() {
+    try {
+      return this.prismaService.table.findMany({
+        where: {
+          status: 'unavailable',
+        },
+      });
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async getOrderByIdTable(id) {
+    try {
+      const table = await this.prismaService.table.findUnique({
         where: {
           id,
         },
+        include: {
+          orders: {
+            where: {
+              orderDetails: {
+                some: {
+                  status: 'pending',
+                },
+              },
+            },
+            include: {
+              orderDetails: {
+                where: {
+                  status: 'pending',
+                },
+                include: {
+                  dish: {
+                    include: {
+                      prices: true,
+                    },
+                  }
+                },
+              },
+            },
+          },
+        },
       });
+
+      return table;
     } catch (error) {
       throw error;
     }

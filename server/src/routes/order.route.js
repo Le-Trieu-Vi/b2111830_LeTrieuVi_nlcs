@@ -9,4 +9,7 @@ orderRouter.route('/')
     .get(authMiddleware.authorize(['admin', 'staff']), orderController.getAll)
     .post(authMiddleware.authorize(['admin', 'staff']), orderMiddleware.create, orderController.create);
 
+orderRouter.route('/:id')
+    .get(authMiddleware.authorize(['admin', 'staff']), orderController.getOne)
+
 export default orderRouter;

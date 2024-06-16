@@ -8,9 +8,9 @@ const validationSchema = Yup.object().shape({
   password: Yup.string().min(6, 'Password must be at least 6 characters').required('Password is required')
 })
 
-function Create() {
+function AddTable() {
   return (
-    <div className='createContainer'>
+    <div className='addTableContainer'>
       <Formik 
         initialValues={{ name: '', email: '', password: ''}} 
         onSubmit={(values) => {
@@ -33,4 +33,4 @@ function Create() {
   )
 }
 
-export default Create
+export default AddTable

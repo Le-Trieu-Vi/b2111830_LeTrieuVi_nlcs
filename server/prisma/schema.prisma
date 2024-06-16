@@ -35,7 +35,7 @@ model Category {
   createdAt DateTime  @default(now()) @map("created_at")
   deletedAt DateTime? @map("deleted_at")
 
-  dishs     Dish[]
+  dishes     Dish[]
 
   @@map("categories")
 }
@@ -53,7 +53,7 @@ model Dish {
   category    Category      @relation(fields: [categoryId], references: [id])
   categoryId  String        @db.VarChar(36)
 
-  @@map("dishs")
+  @@map("dishes")
 }
 
 model Price {
@@ -67,7 +67,6 @@ model Price {
 
 model Order {
   id          String        @id @default(uuid()) @db.VarChar(36)
-  status      String        @db.VarChar(100)
   createdAt   DateTime      @default(now()) @map("created_at")
   deletedAt   DateTime?     @map("deleted_at")
   orderDetails OrderDetail[]
@@ -96,7 +95,7 @@ model Table {
 model OrderDetail {
   order    Order  @relation(fields: [orderId], references: [id])
   orderId  String @db.VarChar(36)
-
+  status   String @default("pending") @db.VarChar(100)
   dish     Dish   @relation(fields: [dishId], references: [id])
   dishId   String @db.VarChar(36)
 

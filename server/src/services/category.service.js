@@ -1,5 +1,4 @@
 import PrismaService from '../core/database.js';
-import { ApiError } from '../middlewares/error.middleware.js';
 
 export default class CategoryService {
   constructor() {
@@ -26,15 +25,23 @@ export default class CategoryService {
 
   async getOne(id) {
     try {
-      return this.prismaService.category.findUnique({
+      return await this.prismaService.category.findUnique({
         where: {
           id,
+        },
+        include: {
+          dishes: {
+            include: {
+              prices: true,
+            },
+          },
         },
       });
     } catch (error) {
       throw error;
     }
   }
+  
 
   async update(id, data) {
     try {

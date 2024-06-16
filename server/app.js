@@ -6,6 +6,7 @@ import tableRouter from './src/routes/table.route.js';
 import categoryRouter from './src/routes/category.route.js';
 import dishRouter from './src/routes/dish.route.js';
 import orderRouter from './src/routes/order.route.js';
+import orderDetailRouter from './src/routes/orderDetail.route.js';
 import { errorHandler } from './src/middlewares/error.middleware.js';
 import dotenv from 'dotenv';
 import cors from 'cors';
@@ -34,6 +35,9 @@ app.use('/api/dishes', dishRouter);
 
 // route order
 app.use('/api/orders', orderRouter);
+
+// route orderDetail
+app.use('/api/order-details', orderDetailRouter);
 
 // error handler
 app.use(errorHandler);
